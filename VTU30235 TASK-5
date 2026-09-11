@@ -1,0 +1,42 @@
+import java.util.*;
+
+class MyHashSet {
+
+    private static final int BUCKETS = 10000;
+    private List<Integer>[] table;
+
+    public MyHashSet() {
+        table = new LinkedList[BUCKETS];
+        for (int i = 0; i < BUCKETS; i++) {
+            table[i] = new LinkedList<>();
+        }
+    }
+
+    private int hash(int key) {
+        return key % BUCKETS;
+    }
+
+    public void add(int key) {
+        int idx = hash(key);
+        if (!table[idx].contains(key)) {
+            table[idx].add(key);
+        }
+    }
+
+    public void remove(int key) {
+        int idx = hash(key);
+        table[idx].remove(Integer.valueOf(key)); // remove by value, not index
+    }
+
+    public boolean contains(int key) {
+        return table[hash(key)].contains(key);
+    }
+}
+
+Input
+["MyHashSet","add","add","add","remove","contains","add","add","add","remove","contains","add","add","add","remove","contains","add","add","add","remove","contains"]
+[[],[1],[10001],[1],[1],[1],[7],[10007],[7],[7],[7],[123],[10123],[123],[123],[123],[5000],[15000],[5000],[5000],[5000]]
+Output
+[null,null,null,null,null,false,null,null,null,null,false,null,null,null,null,false,null,null,null,null,false]
+Expected
+[null,null,null,null,null,false,null,null,null,null,false,null,null,null,null,false,null,null,null,null,false]
