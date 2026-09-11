@@ -1,0 +1,91 @@
+import java.util.*;
+
+class UndergroundSystem {
+
+    // Tracks who is currently checked in: id -> [stationName, checkInTime]
+    private Map<Integer, String> checkInStation;
+    private Map<Integer, Integer> checkInTime;
+
+    // Tracks travel data: "startStation->endStation" -> [totalTime, tripCount]
+    private Map<String, int[]> travelData;
+
+    public UndergroundSystem() {
+        checkInStation = new HashMap<>();
+        checkInTime = new HashMap<>();
+        travelData = new HashMap<>();
+    }
+
+    public void checkIn(int id, String stationName, int t) {
+        checkInStation.put(id, stationName);
+        checkInTime.put(id, t);
+    }
+
+    public void checkOut(int id, String stationName, int t) {
+        String startStation = checkInStation.get(id);
+        int startTime = checkInTime.get(id);
+
+        String route = startStation + "->" + stationName;
+        int travelTime = t - startTime;
+
+        int[] data = travelData.getOrDefault(route, new int[]{0, 0});
+        data[0] += travelTime;  // sum of travel times
+        data[1] += 1;           // trip count
+        travelData.put(route, data);
+
+        // Clean up check-in records
+        checkInStation.remove(id);
+        checkInTime.remove(id);
+    }
+
+    public double getAverageTime(String startStation, String endStation) {
+        String route = startStation + "->" + endStation;
+        int[] data = travelData.get(route);
+        return (double) data[0] / data[1];
+    }
+}
+
+import java.util.*;
+
+class UndergroundSystem {
+
+    // Tracks who is currently checked in: id -> [stationName, checkInTime]
+    private Map<Integer, String> checkInStation;
+    private Map<Integer, Integer> checkInTime;
+
+    // Tracks travel data: "startStation->endStation" -> [totalTime, tripCount]
+    private Map<String, int[]> travelData;
+
+    public UndergroundSystem() {
+        checkInStation = new HashMap<>();
+        checkInTime = new HashMap<>();
+        travelData = new HashMap<>();
+    }
+
+    public void checkIn(int id, String stationName, int t) {
+        checkInStation.put(id, stationName);
+        checkInTime.put(id, t);
+    }
+
+    public void checkOut(int id, String stationName, int t) {
+        String startStation = checkInStation.get(id);
+        int startTime = checkInTime.get(id);
+
+        String route = startStation + "->" + stationName;
+        int travelTime = t - startTime;
+
+        int[] data = travelData.getOrDefault(route, new int[]{0, 0});
+        data[0] += travelTime;  // sum of travel times
+        data[1] += 1;           // trip count
+        travelData.put(route, data);
+
+        // Clean up check-in records
+        checkInStation.remove(id);
+        checkInTime.remove(id);
+    }
+
+    public double getAverageTime(String startStation, String endStation) {
+        String route = startStation + "->" + endStation;
+        int[] data = travelData.get(route);
+        return (double) data[0] / data[1];
+    }
+}
